@@ -10,7 +10,7 @@ import (
 )
 
 type responseJson struct {
-	AccessToken string `json:access_token`
+	AccessToken string `json:"access_token"`
 }
 
 func main() {
