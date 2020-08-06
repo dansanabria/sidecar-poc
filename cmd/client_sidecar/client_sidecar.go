@@ -13,7 +13,7 @@ type responseJson struct {
 	AccessToken string `json:"access_token"`
 }
 
-func main() {
+func getAccessToken(resource string) responseJson {
 	// Create HTTP request for a managed services for Azure resources token to access Azure Resource Manager
 	var msi_endpoint *url.URL
 	msi_endpoint, err := url.Parse("http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01")
@@ -29,12 +29,11 @@ func main() {
 	}
 	req.Header.Add("Metadata", "true")
 
-	// Call managed sercices for Azure resources token endpoint
+	// Call managed services for Azure resources token endpoint
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Println("Error calling token endpoint: ", err)
-		return
 	}
 
 	// Extract response body
@@ -42,7 +41,6 @@ func main() {
 	defer resp.Body.Close()
 	if err != nil {
 		log.Println("Error reading the response body: ", err)
-		return
 	}
 
 	// Unmarshall response body into struct
@@ -50,9 +48,13 @@ func main() {
 	err = json.Unmarshal(responseBytes, &r)
 	if err != nil {
 		log.Println("Error unmarshalling the response: ", err)
-		return
 	}
+	return r
+}
 
-	fmt.Println("Response status: ", resp.Status)
-	fmt.Println("Access Token: ", r.AccessToken)
+func main() {
+
+	resp := getAccessToken("https://management.azure.com/")
+	// fmt.Println("Response status: ", resp.Status)
+	fmt.Println("Access Token: ", resp.AccessToken)
 }
