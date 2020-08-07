@@ -11,6 +11,8 @@ import (
 
 type responseJson struct {
 	AccessToken string `json:"access_token"`
+	ExpiresIn   string `json:"expires_in"`
+	ExpiresOn   string `json:"expires_on"`
 }
 
 func getAccessToken(resource string) responseJson {
@@ -57,4 +59,6 @@ func main() {
 	resp := getAccessToken("https://management.azure.com/")
 	// fmt.Println("Response status: ", resp.Status)
 	fmt.Println("Access Token: ", resp.AccessToken)
+	fmt.Println("Expires In: ", resp.ExpiresIn)
+	fmt.Println("Expires On: ", resp.ExpiresOn)
 }
