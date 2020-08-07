@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: changeme
+  name: sidecarclient
+  labels:
+    aadpodidbinding: changeme
+spec:
+  containers:
+    - name: sidecarclient
+      image: dsanabria/client_sidecar
+      resources:
+        limits:
+          cpu: 500m
+          memory: 256Mi
+        requests:
+          cpu: 500m
+          memory: 256Mi

@@ -1,4 +1,4 @@
-FROM golang
+FROM golang:1.14-alpine3.12
 
 ADD ./cmd/client_sidecar /go/src/github.com/dansanabria/sidecar-poc/cmd/client_sidecar
 
