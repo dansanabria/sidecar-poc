@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"time"
 )
 
 type responseJson struct {
@@ -55,10 +56,11 @@ func getAccessToken(resource string) responseJson {
 }
 
 func main() {
-
+	var duration time.Duration = 120
 	resp := getAccessToken("https://management.azure.com/")
-	// fmt.Println("Response status: ", resp.Status)
 	fmt.Println("Access Token: ", resp.AccessToken)
 	fmt.Println("Expires In: ", resp.ExpiresIn)
 	fmt.Println("Expires On: ", resp.ExpiresOn)
+	fmt.Printf("Sleeping for %d seconds ...\n", duration)
+	time.Sleep(duration * time.Second)
 }

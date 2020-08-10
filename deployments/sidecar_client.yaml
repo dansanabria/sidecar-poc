@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  namespace: changeme
+  namespace: svc-reliability-sandbox
   name: sidecarclient
   labels:
-    aadpodidbinding: changeme
+    aadpodidbinding: svc-reliability-nonprod
 spec:
   containers:
     - name: sidecarclient
@@ -12,7 +12,7 @@ spec:
       resources:
         limits:
           cpu: 500m
-          memory: 256Mi
+          memory: 512Mi
         requests:
           cpu: 500m
-          memory: 256Mi
+          memory: 512Mi
