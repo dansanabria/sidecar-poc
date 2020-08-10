@@ -7,12 +7,13 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"strconv"
 	"time"
 )
 
 type responseJson struct {
-	AccessToken string        `json:"access_token"`
-	ExpiresIn   time.Duration `json:"expires_in"`
+	AccessToken string `json:"access_token"`
+	ExpiresIn   string `json:"expires_in"`
 }
 
 func getAccessToken(resource string) responseJson {
@@ -56,6 +57,10 @@ func getAccessToken(resource string) responseJson {
 
 func main() {
 	resp := getAccessToken("https://management.azure.com/")
-	fmt.Printf("Sleeping for %s seconds ...", resp.ExpiresIn.String())
-	time.Sleep(resp.ExpiresIn * time.Second)
+	duration, err := strconv.Atoi(resp.ExpiresIn)
+	if err != nil {
+		log.Panic(err)
+	}
+	fmt.Printf("Sleeping for %s seconds ...", resp.ExpiresIn)
+	time.Sleep(time.Duration(duration) * time.Second)
 }
