@@ -11,9 +11,8 @@ import (
 )
 
 type responseJson struct {
-	AccessToken string `json:"access_token"`
-	ExpiresIn   string `json:"expires_in"`
-	ExpiresOn   string `json:"expires_on"`
+	AccessToken string        `json:"access_token"`
+	ExpiresIn   time.Duration `json:"expires_in"`
 }
 
 func getAccessToken(resource string) responseJson {
@@ -56,11 +55,7 @@ func getAccessToken(resource string) responseJson {
 }
 
 func main() {
-	var duration time.Duration = 120
 	resp := getAccessToken("https://management.azure.com/")
-	fmt.Println("Access Token: ", resp.AccessToken)
-	fmt.Println("Expires In: ", resp.ExpiresIn)
-	fmt.Println("Expires On: ", resp.ExpiresOn)
-	fmt.Printf("Sleeping for %d seconds ...\n", duration)
-	time.Sleep(duration * time.Second)
+	fmt.Printf("Sleeping for %s seconds ...", resp.ExpiresIn.String())
+	time.Sleep(resp.ExpiresIn * time.Second)
 }
