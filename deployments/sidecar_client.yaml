@@ -16,3 +16,10 @@ spec:
         requests:
           cpu: 500m
           memory: 512Mi
+      volumeMounts:
+        - mountPath: /token
+          name: token
+  volumes:
+    - name: token
+      emptyDir:
+        medium: Memory
