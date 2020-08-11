@@ -1,14 +1,17 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  namespace: svc-reliability-sandbox
+  namespace: akv-test
   name: sidecarclient
   labels:
-    aadpodidbinding: svc-reliability-nonprod
+    aadpodidbinding: akv-test
 spec:
   containers:
     - name: sidecarclient
       image: dsanabria/client_sidecar
+      env:
+      - name: client_id
+        value: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxx
       resources:
         limits:
           cpu: 500m
