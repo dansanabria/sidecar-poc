@@ -70,7 +70,8 @@ func shareToken(token string, path string) error {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("Wrote %d bytes to %s", bytes, path)
+	fmt.Printf("Wrote %d bytes to %s\n", bytes, path)
+	w.Flush()
 	return err
 }
 
