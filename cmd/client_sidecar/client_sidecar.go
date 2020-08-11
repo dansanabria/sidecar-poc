@@ -20,7 +20,7 @@ type responseJson struct {
 	ExpiresIn   string `json:"expires_in"`
 }
 
-func getAccessToken(resource string) responseJson {
+func getAccessToken(resource string, clientId string) responseJson {
 	// Create HTTP request for a managed services for Azure resources token to access Azure Resource Manager
 	var msi_endpoint *url.URL
 	msi_endpoint, err := url.Parse(imds)
@@ -29,6 +29,7 @@ func getAccessToken(resource string) responseJson {
 	}
 	msi_parameters := url.Values{}
 	msi_parameters.Add("resource", resource)
+	msi_parameters.Add("client_id", clientId)
 	msi_endpoint.RawQuery = msi_parameters.Encode()
 	req, err := http.NewRequest("GET", msi_endpoint.String(), nil)
 	if err != nil {
@@ -60,6 +61,7 @@ func getAccessToken(resource string) responseJson {
 }
 
 func shareToken(token string, path string) error {
+	// Share the token via a memory based volume. Check your k8s manifest
 	file, err := os.Create(path)
 	if err != nil {
 		log.Fatal(err)
@@ -76,8 +78,8 @@ func shareToken(token string, path string) error {
 }
 
 func main() {
-	resourceurl := "https://ossrdbms-aad.database.windows.net&client_id=" + os.Getenv("client_id")
-	resp := getAccessToken(resourceurl)
+
+	resp := getAccessToken("https://ossrdbms-aad.database.windows.net", os.Getenv("client_id"))
 	shareToken(resp.AccessToken, "/token/.token")
 	duration, err := strconv.Atoi(resp.ExpiresIn)
 	if err != nil {
@@ -85,4 +87,5 @@ func main() {
 	}
 	fmt.Printf("Sleeping for %s seconds ...\n", resp.ExpiresIn)
 	time.Sleep(time.Duration(duration) * time.Second)
+
 }
