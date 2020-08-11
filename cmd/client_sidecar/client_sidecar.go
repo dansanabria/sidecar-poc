@@ -76,7 +76,8 @@ func shareToken(token string, path string) error {
 }
 
 func main() {
-	resp := getAccessToken("https://ossrdbms-aad.database.windows.net&client_id=" + os.Getenv("client_id"))
+	resourceurl := "https://ossrdbms-aad.database.windows.net&client_id=" + os.Getenv("client_id")
+	resp := getAccessToken(resourceurl)
 	shareToken(resp.AccessToken, "/token/.token")
 	duration, err := strconv.Atoi(resp.ExpiresIn)
 	if err != nil {
