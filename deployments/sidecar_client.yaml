@@ -19,6 +19,21 @@ spec:
       volumeMounts:
         - mountPath: /token
           name: token
+    - name: psqlconnector
+      image: dsanabria/psqltest:latest
+      args:
+        - "sleep"
+        - "10000"
+      resources:
+        limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 500m
+          memory: 512Mi
+      volumeMounts:
+        - mountPath: /token
+          name: token
   volumes:
     - name: token
       emptyDir:
