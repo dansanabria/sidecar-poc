@@ -2,6 +2,6 @@ FROM golang:1.14-alpine3.12
 
 ADD ./cmd/psql_connector /go/src/github.com/dansanabria/sidecar-poc/cmd/psql_connector
 
-RUN go get github.com/lib/pq && go install -v github.com/dansanabria/sidecar-poc/cmd/psql_connector
+RUN apk add git && go get github.com/lib/pq && go install -v github.com/dansanabria/sidecar-poc/cmd/psql_connector
 
 CMD ["psql_connector"]
