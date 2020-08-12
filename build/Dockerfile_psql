@@ -1,3 +1,7 @@
 FROM golang:1.14-alpine3.12
 
-RUN apk add --no-cache postgresql-client curl jq
+ADD ./cmd/psql_connector /go/src/github.com/dansanabria/sidecar-poc/cmd/psql_connector
+
+RUN go install -v github.com/dansanabria/sidecar-poc/cmd/psql_connector
+
+CMD ["psql_connector"]
